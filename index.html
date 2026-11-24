@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BayWork</title>
+  <meta name="description" content="Simulate quarter-by-quarter hiring, attrition, layoffs and comp across the Bay Area engineering workforce.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 28 28" aria-hidden="true">
+        <path d="M3 20c4-1 6-6 11-6s7 5 11 6" />
+        <circle cx="9" cy="9" r="2.6" /><circle cx="19" cy="9" r="2.6" /><circle cx="14" cy="6" r="2.6" />
+      </svg>
+      <div>
+        <div class="brand-name">BayWork</div>
+        <div class="brand-sub">Bay Area engineering workforce simulator</div>
+      </div>
+    </div>
+
+    <div class="transport">
+      <button id="btn-start" class="btn primary" type="button">
+        <svg class="ico ico-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>
+        <svg class="ico ico-stop" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="3.5" width="9" height="9" rx="1.5"/></svg>
+        <span id="btn-start-label">Start</span>
+      </button>
+      <button id="btn-step" class="btn" type="button" title="Advance one quarter">+1 quarter</button>
+      <button id="btn-reset" class="btn" type="button">Reset</button>
+      <div class="seg-group" role="group" aria-label="Speed, quarters per second" id="speed"></div>
+    </div>
+
+    <div class="clock">
+      <div class="clock-row">
+        <span class="status" id="status" data-state="ready">Ready</span>
+        <span class="clock-time"><b id="clock">Start</b> · <span id="clock-q">0 of 20 quarters</span></span>
+      </div>
+      <div class="progress"><div class="progress-fill" id="progress"></div></div>
+    </div>
+
+    <div class="top-actions">
+      <button id="btn-data" class="btn" type="button">Raw data</button>
+      <button id="btn-summary" class="btn" type="button" disabled>Summary</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="Settings">
+      <div id="config"></div>
+      <p class="lock-note">Settings are locked during a run. Reset to change them.</p>
+      <div class="sidebar-foot">
+        <button class="link" type="button" id="btn-defaults">Restore defaults</button>
+        <span class="kbd-hint"><kbd>Space</kbd> start / stop</span>
+      </div>
+    </aside>
+
+    <main class="map-col">
+      <div class="map-card">
+        <div class="map-toolbar">
+          <div class="layer-toggles" id="layers" role="group" aria-label="Map layers"></div>
+          <div class="map-search">
+            <input id="company-search" type="search" placeholder="Find a company…" list="company-list" aria-label="Find a company">
+            <datalist id="company-list"></datalist>
+          </div>
+        </div>
+        <div class="map-wrap" id="map-wrap">
+          <svg id="map" role="img" aria-label="Map of the Bay Area with company headquarters and where engineers live"></svg>
+          <div class="map-zoom" role="group" aria-label="Zoom">
+            <button type="button" class="zbtn" id="zoom-in" aria-label="Zoom in">+</button>
+            <button type="button" class="zbtn" id="zoom-out" aria-label="Zoom out">−</button>
+            <button type="button" class="zbtn" id="zoom-reset" aria-label="Reset view">⤢</button>
+          </div>
+          <div class="map-legend" id="map-legend"></div>
+          <button class="legend-toggle" type="button" id="legend-open" hidden>Legend</button>
+          <div class="map-focus" id="map-focus" hidden></div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="insight-col" aria-label="Market dashboard">
+      <section class="kpis" id="kpis"></section>
+      <section class="card">
+        <div class="tabs" role="tablist" id="chart-tabs"></div>
+        <div id="chart-body"></div>
+      </section>
+      <section class="card">
+        <div class="card-head"><h3>Biggest movers</h3><span class="muted" id="movers-note">since start</span></div>
+        <div id="movers"></div>
+      </section>
+    </aside>
+  </div>
+
+  <div class="overlay" id="overlay" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" tabindex="-1" id="sheet"></div>
+  </div>
+
+  <div class="tooltip" id="tooltip" hidden></div>
+
+  <script src="js/data/cities.js"></script>
+  <script src="js/data/geo.js"></script>
+  <script src="js/data/companies.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/ui/charts.js"></script>
+  <script src="js/ui/map.js"></script>
+  <script src="js/ui/overlays.js"></script>
+  <script src="js/ui/insights.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
